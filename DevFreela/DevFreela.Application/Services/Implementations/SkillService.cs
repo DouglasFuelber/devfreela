@@ -18,7 +18,7 @@ namespace DevFreela.Application.Services.Implementations
 
         public List<SkillViewModel> GetAll()
         {
-            List<Skill> skills = _dbContext.Skills;
+            List<Skill> skills = _dbContext.Skills.ToList();
 
             var skillsViewModel = skills.Select(s => new SkillViewModel(s.Id, s.Description))
                                         .ToList();

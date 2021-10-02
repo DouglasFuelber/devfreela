@@ -56,7 +56,7 @@ namespace DevFreela.Application.Services.Implementations
 
         public List<ProjectViewModel> GetAll(string query)
         {
-            List<Project> projects = _dbContext.Projects;
+            List<Project> projects = _dbContext.Projects.ToList();
 
             List<ProjectViewModel> projectsViewModel = projects
                 .Select(p => new ProjectViewModel(p.Id, p.Title, p.CreatedAt))
