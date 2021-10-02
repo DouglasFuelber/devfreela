@@ -1,21 +1,16 @@
 ﻿using DevFreela.Core.Entities;
-using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace DevFreela.Infrastructure.Persistence
 {
-    public class DevFreelaDbContext
+    public class DevFreelaDbContext : DbContext
     {
-        public DevFreelaDbContext()
-        {
-            Projects = new List<Project>();
-            Users = new List<User>();
-            Skills = new List<Skill>();
-            ProjectsComments = new List<ProjectComment>();
-        }
+        public DevFreelaDbContext(DbContextOptions<DevFreelaDbContext> options) : base(options) { }
 
-        public List<Project> Projects{ get; set; }
-        public List<User> Users { get; set; }
-        public List<Skill> Skills { get; set; }
-        public List<ProjectComment> ProjectsComments { get; set; }
+        public DbSet<Project> Projects{ get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Skill> Skills { get; set; }
+        public DbSet<UserSkill> UserSkills { get; set; }
+        public DbSet<ProjectComment> ProjectsComments { get; set; }
     }
 }
