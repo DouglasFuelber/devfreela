@@ -17,22 +17,6 @@ namespace DevFreela.Application.Services.Implementations
             _dbContext = dbContext;
         }
 
-        public int Create(NewProjectInputModel inputModel)
-        {
-            Project project = new Project(
-                inputModel.Title,
-                inputModel.Description,
-                inputModel.IdClient,
-                inputModel.IdFreelancer,
-                inputModel.TotalCost);
-
-            _dbContext.Projects.Add(project);
-
-            _dbContext.SaveChanges();
-
-            return project.Id;
-        }
-
         public void CreateComment(CreateCommentInputModel inputModel)
         {
             ProjectComment comment = new ProjectComment(
