@@ -1,8 +1,7 @@
 ﻿using DevFreela.Application.ViewModels;
 using DevFreela.Core.Entities;
-using DevFreela.Infrastructure.Persistence;
+using DevFreela.Core.Repositories;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -12,15 +11,15 @@ namespace DevFreela.Application.Queries.GetAllSkills
 {
     public class GetAllSkillsQueryHandler : IRequestHandler<GetAllSkillsQuery, List<SkillViewModel>>
     {
-        private readonly DevFreelaDbContext _dbContext;
-        public GetAllSkillsQueryHandler(DevFreelaDbContext dbContext)
+        private readonly ISkillRepository _skillRepository;
+        public GetAllSkillsQueryHandler(ISkillRepository skillRepository)
         {
-            _dbContext = dbContext;
+            _skillRepository = skillRepository;
         }
 
         public async Task<List<SkillViewModel>> Handle(GetAllSkillsQuery request, CancellationToken cancellationToken)
         {
-            List<Skill> skills = await _dbContext.Skills.ToListAsync();
+            List<Skill> skills = await _skillRepository.GetAllAsync();
 
             var skillsViewModel = skills.Select(s => new SkillViewModel(s.Id, s.Description))
                                         .ToList();
