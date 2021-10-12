@@ -19,7 +19,9 @@ namespace DevFreela.Application.Commands.CreateUser
             User user = new User(
                 request.Fullname,
                 request.Email,
-                request.BirthDate);
+                request.BirthDate,
+                request.Password,
+                request.Role);
 
             await _userRepository.AddAsync(user);
 
