@@ -1,3 +1,4 @@
+using DevFreela.API.Filters;
 using DevFreela.Application.Commands.CreateProject;
 using DevFreela.Application.Validators;
 using DevFreela.Core.Repositories;
@@ -30,7 +31,7 @@ namespace DevFreela.API
             string connectionString = Configuration.GetConnectionString("DevFreelaConnectionString");
             services.AddDbContext<DevFreelaDbContext>(options => options.UseSqlServer(connectionString));
 
-            services.AddControllers()
+            services.AddControllers(o => o.Filters.Add(typeof(ValidationFilter)))
                     .AddFluentValidation(f => f.RegisterValidatorsFromAssemblyContaining<CreateUserCommandValidator>());
 
             services.AddScoped<IProjectRepository, ProjectRepository>();
