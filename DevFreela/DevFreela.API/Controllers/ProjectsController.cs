@@ -8,6 +8,7 @@ using DevFreela.Application.Queries.GetAllProjects;
 using DevFreela.Application.Queries.GetProjectById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DevFreela.API.Controllers
@@ -48,8 +49,14 @@ namespace DevFreela.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateProjectCommand command)
         {
-            if (command.Title.Length > 50)
-                return BadRequest();
+            if (!ModelState.IsValid)
+            {
+                var messages = ModelState.SelectMany(s => s.Value.Errors)
+                                         .Select(e => e.ErrorMessage)
+                                         .ToList();
+
+                return BadRequest(messages);
+            }
 
             int id = await _mediator.Send(command);
 
@@ -59,9 +66,13 @@ namespace DevFreela.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] UpdateProjectCommand command)
         {
-            if (command.Description.Length > 200)
+            if (!ModelState.IsValid)
             {
-                return BadRequest();
+                var messages = ModelState.SelectMany(s => s.Value.Errors)
+                                         .Select(e => e.ErrorMessage)
+                                         .ToList();
+
+                return BadRequest(messages);
             }
 
             await _mediator.Send(command);
@@ -82,6 +93,15 @@ namespace DevFreela.API.Controllers
         [HttpPost("{id}/comments")]
         public async Task<IActionResult> PostComment(int id, [FromBody] CreateCommentCommand command)
         {
+            if (!ModelState.IsValid)
+            {
+                var messages = ModelState.SelectMany(s => s.Value.Errors)
+                                         .Select(e => e.ErrorMessage)
+                                         .ToList();
+
+                return BadRequest(messages);
+            }
+
             await _mediator.Send(command);
 
             return NoContent();

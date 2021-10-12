@@ -3,6 +3,7 @@ using DevFreela.Application.Commands.CreateUser;
 using DevFreela.Application.Queries.GetUserById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DevFreela.API.Controllers
@@ -32,6 +33,15 @@ namespace DevFreela.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CreateUserCommand command)
         {
+            if (!ModelState.IsValid)
+            {
+                var messages = ModelState.SelectMany(s => s.Value.Errors)
+                                         .Select(e => e.ErrorMessage)
+                                         .ToList();
+
+                return BadRequest(messages);
+            }
+
             int id = await _mediator.Send(command);
 
             return CreatedAtAction(nameof(GetById), new { id }, command);
