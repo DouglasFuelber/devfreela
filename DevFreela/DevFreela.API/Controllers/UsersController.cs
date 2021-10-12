@@ -1,5 +1,5 @@
-﻿using DevFreela.API.Models;
-using DevFreela.Application.Commands.CreateUser;
+﻿using DevFreela.Application.Commands.CreateUser;
+using DevFreela.Application.Commands.LoginUser;
 using DevFreela.Application.Queries.GetUserById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -37,10 +37,15 @@ namespace DevFreela.API.Controllers
             return CreatedAtAction(nameof(GetById), new { id }, command);
         }
 
-        [HttpPut("{id}/login")]
-        public IActionResult Login(int id, [FromBody] LoginModel login)
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginUserCommand command)
         {
-            return Ok();
+            var loginViewModel = await _mediator.Send(command);
+
+            if (loginViewModel == null)
+                return BadRequest("Login failed");
+
+            return Ok(loginViewModel);
         }
     }
 }
