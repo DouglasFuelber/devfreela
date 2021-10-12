@@ -1,7 +1,6 @@
 ﻿using DevFreela.Core.Entities;
 using DevFreela.Core.Repositories;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -15,14 +14,16 @@ namespace DevFreela.Infrastructure.Persistence.Repositories
             _dbContext = dbContext;
         }
 
-        public Task AddAsync(Project project)
+        public async Task AddAsync(Project project)
         {
-            throw new NotImplementedException();
+            await _dbContext.Projects.AddAsync(project);
+            await SaveChangesAsync();
         }
 
-        public Task AddCommentAsync(ProjectComment projectComment)
+        public async Task AddCommentAsync(ProjectComment projectComment)
         {
-            throw new NotImplementedException();
+            await _dbContext.ProjectsComments.AddAsync(projectComment);
+            await SaveChangesAsync();
         }
 
         public async Task<List<Project>> GetAllAsync()
@@ -30,27 +31,22 @@ namespace DevFreela.Infrastructure.Persistence.Repositories
             return await _dbContext.Projects.ToListAsync();
         }
 
-        public Task<Project> GetByIdAsync(int id)
+        public async Task<Project> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _dbContext.Projects.SingleOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task<Project> GetDetailsByIdAsync(int id)
         {
             return await _dbContext.Projects
-                .Include(p => p.Client)
-                .Include(p => p.Freelancer)
-                .SingleOrDefaultAsync(p => p.Id == id);
+                                    .Include(p => p.Client)
+                                    .Include(p => p.Freelancer)
+                                    .SingleOrDefaultAsync(p => p.Id == id);
         }
 
-        public Task SaveChangesAsync()
+        public async Task SaveChangesAsync()
         {
-            throw new NotImplementedException();
-        }
-
-        public Task StartAsync(Project project)
-        {
-            throw new NotImplementedException();
+            await _dbContext.SaveChangesAsync();
         }
     }
 }
