@@ -4,6 +4,7 @@ using DevFreela.Core.Repositories;
 using Moq;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace DevFreela.UnitTests.Application.Queries
@@ -11,7 +12,7 @@ namespace DevFreela.UnitTests.Application.Queries
     public class GetAllProjectsCommandHandlerTests
     {
         [Fact]
-        public async void ThreeProjectsExist_Executed_ReturnThreeProjectViewModels()
+        public async Task ThreeProjectsExist_Executed_ReturnThreeProjectViewModels()
         {
             // Arrange
             var projects = new List<Project> {
