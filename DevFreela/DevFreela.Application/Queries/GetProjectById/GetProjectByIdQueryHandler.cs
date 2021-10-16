@@ -18,7 +18,8 @@ namespace DevFreela.Application.Queries.GetProjectById
         {
             var project = await _projectRepository.GetDetailsByIdAsync(request.Id);
 
-            if (project == null) return null;
+            if (project == null)
+                return null;
 
             var projectDetailsViewModel = new ProjectDetailsViewModel(
                 project.Id,
