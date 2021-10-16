@@ -5,6 +5,7 @@ using DevFreela.Core.Repositories;
 using Moq;
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace DevFreela.UnitTests.Application.Queries
@@ -12,7 +13,7 @@ namespace DevFreela.UnitTests.Application.Queries
     public class GetUserByIdQueryHandlerTests
     {
         [Fact]
-        public async void UserExists_Executed_ReturnUserViewModel()
+        public async Task UserExists_Executed_ReturnUserViewModel()
         {
             // Arrange
             var user = new User("User test", "test@mail.com", new DateTime(1990, 1, 1), "mypassword", "client");
