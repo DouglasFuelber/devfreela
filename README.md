@@ -1,2 +1,2 @@
 # devfreela
-REST API for managing products and their evaluations of an e-Commerce
+REST API for freelancers work in projects registered by clients
