@@ -3,6 +3,7 @@ using DevFreela.Application.Commands.StartProject;
 using DevFreela.Core.Entities;
 using DevFreela.Core.Enums;
 using DevFreela.Core.Repositories;
+using DevFreela.Infrastructure.Payments;
 using Moq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,8 +22,10 @@ namespace DevFreela.UnitTests.Application.Commands
             var projectRepositoryMock = new Mock<IProjectRepository>();
             projectRepositoryMock.Setup(p => p.GetByIdAsync(It.IsAny<int>()).Result).Returns(project);
 
-            var finishProjectCommand = new FinishProjectCommand(It.IsAny<int>());
-            var finsishProjectCommandHandler = new FinishProjectCommandHandler(projectRepositoryMock.Object);
+            var paymentService = new PaymentService();
+
+            var finishProjectCommand = new FinishProjectCommand();
+            var finsishProjectCommandHandler = new FinishProjectCommandHandler(projectRepositoryMock.Object, paymentService);
 
             // Act
             project.Start();
