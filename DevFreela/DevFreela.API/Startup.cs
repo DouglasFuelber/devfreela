@@ -37,6 +37,8 @@ namespace DevFreela.API
             string connectionString = Configuration.GetConnectionString("DevFreelaConnectionString");
             services.AddDbContext<DevFreelaDbContext>(options => options.UseSqlServer(connectionString));
 
+            services.AddHttpClient();
+
             services.AddControllers(o => o.Filters.Add(typeof(ValidationFilter)))
                     .AddFluentValidation(f => f.RegisterValidatorsFromAssemblyContaining<CreateUserCommandValidator>());
 
