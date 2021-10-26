@@ -110,7 +110,7 @@ namespace DevFreela.API.Controllers
                 return BadRequest("Payment cannot be processed!");
             }
 
-            return NoContent();
+            return Accepted();
         }
     }
 }

@@ -4,6 +4,7 @@ using DevFreela.Application.Validators;
 using DevFreela.Core.Repositories;
 using DevFreela.Core.Services;
 using DevFreela.Infrastructure.Auth;
+using DevFreela.Infrastructure.MessageBus;
 using DevFreela.Infrastructure.Payments;
 using DevFreela.Infrastructure.Persistence;
 using DevFreela.Infrastructure.Persistence.Repositories;
@@ -37,8 +38,6 @@ namespace DevFreela.API
             string connectionString = Configuration.GetConnectionString("DevFreelaConnectionString");
             services.AddDbContext<DevFreelaDbContext>(options => options.UseSqlServer(connectionString));
 
-            services.AddHttpClient();
-
             services.AddControllers(o => o.Filters.Add(typeof(ValidationFilter)))
                     .AddFluentValidation(f => f.RegisterValidatorsFromAssemblyContaining<CreateUserCommandValidator>());
 
@@ -48,6 +47,7 @@ namespace DevFreela.API
 
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IPaymentService, PaymentService>();
+            services.AddScoped<IMessageBusService, MessageBusService>();
 
             services.AddMediatR(typeof(CreateProjectCommand));
 
