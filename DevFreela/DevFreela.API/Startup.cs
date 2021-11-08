@@ -1,5 +1,6 @@
 using DevFreela.API.Filters;
 using DevFreela.Application.Commands.CreateProject;
+using DevFreela.Application.Consumers;
 using DevFreela.Application.Validators;
 using DevFreela.Core.Repositories;
 using DevFreela.Core.Services;
@@ -48,6 +49,8 @@ namespace DevFreela.API
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IPaymentService, PaymentService>();
             services.AddScoped<IMessageBusService, MessageBusService>();
+
+            services.AddHostedService<ApprovedPaymentConsumer>();
 
             services.AddMediatR(typeof(CreateProjectCommand));
 

@@ -50,7 +50,7 @@ namespace DevFreela.Core.Entities
 
         public void Finish()
         {
-            if (Status == ProjectStatusEnum.InProgress)
+            if (Status == ProjectStatusEnum.PaymentPending)
             {
                 FinishedAt = DateTime.Now;
                 Status = ProjectStatusEnum.Finished;
